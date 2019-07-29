@@ -5,10 +5,11 @@ import com.hssw.springboot.test.springtest.Service.TokenService;
 import com.hssw.springboot.test.springtest.Service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class LoginController{
 
     @Autowired
@@ -34,14 +35,14 @@ public class LoginController{
         return user != null;
     }
 
-    @RequestMapping("/Login")
-    public String Login(){
-        UserEntity user = userService.validateUser("14407840210", "12346");
-        if(user == null){
-            return "Login Failed due to incorrect login information";
+    @RequestMapping(value = "/Login",method = RequestMethod.POST)
+    public String Login(UserEntity user){
+        UserEntity validUser =  userService.validateUser(user.getUserName(), user.getPassword());
+        if(validUser ==null){
+            return "error";
         }
-        String userSummary = userService.userSummary(user.getId());
-        return tokenService.GenerateUserToken("hssw", 1, userSummary, 1000);
-
+        else{
+            return "true";
+        }
     }
 }
