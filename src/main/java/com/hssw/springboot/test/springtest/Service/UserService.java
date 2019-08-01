@@ -44,12 +44,13 @@ public class UserService {
     public UserEntity validateUser(String userName, String password){
         UserEntity user = userMapper.getUserByUserName(userName);
         if(user == null)
-            return null;
-        if(checkUserPwd(user, password)){
-            return user;
-        }
+            throw new RuntimeException("user not found");
         else
-            return null;
+            if(checkUserPwd(user, password)){
+            return user;
+            }
+            else
+                throw new RuntimeException("login failed");
     }
 
     private String encryptPassword(String password, String salt){

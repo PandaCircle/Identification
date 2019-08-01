@@ -31,7 +31,7 @@ public class LoginController{
 
     @RequestMapping("/Check")
     public boolean Check(){
-        UserEntity user = userService.validateUser("14407840210", "123456");
+        UserEntity user = userService.validateUser("14407840210", "12456");
         return user != null;
     }
 
