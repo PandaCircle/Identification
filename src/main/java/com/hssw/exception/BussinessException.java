@@ -15,6 +15,11 @@ public class BussinessException extends RuntimeException implements IBaseExcepti
         this.errCode = errCode;
     }
 
+    public BussinessException(BussinessExceptions ex){
+        super(ex.getMessage());
+        this.errCode = ex.getCode();
+    }
+
     @Override
     public int getCode() {
         return this.errCode;

@@ -5,13 +5,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-@Component
-public class GlobalExceptionHandler implements HandlerExceptionResolver {
+@Configuration
+@AutoConfigureBefore
+public class GlobalExceptionHandler implements HandlerExceptionResolver,Ordered {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -31,6 +34,11 @@ public class GlobalExceptionHandler implements HandlerExceptionResolver {
         }
         
         return mav;
+    }
+
+    @Override
+    public int getOrder() {
+        return 0;
     }
     
 }
