@@ -2,11 +2,11 @@ package com.hssw.springboot.test.springtest.Service;
 
 import java.util.Random;
 
-import com.hssw.exception.BussinessException;
-import com.hssw.exception.BussinessExceptions;
 import com.hssw.mapper.UserMapper;
 
 import com.hssw.model.UserEntity;
+import com.hssw.springboot.test.springtest.Exception.BusinessException;
+import com.hssw.springboot.test.springtest.Exception.BusinessExceptions;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,13 +46,13 @@ public class UserService {
     public UserEntity validateUser(String userName, String password){
         UserEntity user = userMapper.getUserByUserName(userName);
         if(user == null)
-            throw new BussinessException(BussinessExceptions.USER_VALIDATE_FAILED);
+            throw new BusinessException(BusinessExceptions.USER_VALIDATE_FAILED);
         else
             if(checkUserPwd(user, password)){
             return user;
             }
             else
-            throw new BussinessException(BussinessExceptions.USER_VALIDATE_FAILED);
+            throw new BusinessException(BusinessExceptions.USER_VALIDATE_FAILED);
     }
 
     private String encryptPassword(String password, String salt){

@@ -1,4 +1,4 @@
-package com.hssw.exception;
+package com.hssw.springboot.test.springtest.Exception;
 
 public interface IBaseException {
     

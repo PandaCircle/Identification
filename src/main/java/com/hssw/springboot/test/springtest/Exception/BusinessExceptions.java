@@ -1,6 +1,6 @@
-package com.hssw.exception;
+package com.hssw.springboot.test.springtest.Exception;
 
-public enum BussinessExceptions {
+public enum BusinessExceptions {
 
     // 业务异常描述
     USER_VALIDATE_FAILED(10001,"用户凭证无效");
@@ -9,7 +9,7 @@ public enum BussinessExceptions {
 
     private int errCode;
 
-    private BussinessExceptions(int errCode, String message){
+    private BusinessExceptions(int errCode, String message){
         this.message = message;
         this.errCode = errCode;
     }

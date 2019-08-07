@@ -1,21 +1,21 @@
-package com.hssw.exception;
+package com.hssw.springboot.test.springtest.Exception;
 
-public class BussinessException extends RuntimeException implements IBaseException {
+public class BusinessException extends RuntimeException implements IBaseException {
 
     private static final long serialVersionUID = 1L;
 
     private int errCode;
     
-    public BussinessException(){
+    public BusinessException(){
         super();
     }
 
-    public BussinessException(String message, int errCode){
+    public BusinessException(String message, int errCode){
         super(message);
         this.errCode = errCode;
     }
 
-    public BussinessException(BussinessExceptions ex){
+    public BusinessException(BusinessExceptions ex){
         super(ex.getMessage());
         this.errCode = ex.getCode();
     }
@@ -25,5 +25,4 @@ public class BussinessException extends RuntimeException implements IBaseExcepti
         return this.errCode;
     }
 
-    
 }
