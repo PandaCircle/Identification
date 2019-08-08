@@ -4,11 +4,17 @@ import com.alibaba.fastjson.JSONObject;
 import com.hssw.model.UserEntity;
 import com.hssw.springboot.test.springtest.Service.TokenService;
 import com.hssw.springboot.test.springtest.Service.UserService;
+import com.hssw.springboot.test.springtest.Util.Redis.RedisStorage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * Login 验证身份 -> 携带用户识别码重定向到
+ * 
+ */
 
 @RestController
 public class LoginController{
@@ -42,6 +48,7 @@ public class LoginController{
         JSONObject ob = new JSONObject();
         ob.put("id",validUser.getId());
         ob.put("username", validUser.getNickName());
+        
         return ob.toJSONString();
     }
 }
