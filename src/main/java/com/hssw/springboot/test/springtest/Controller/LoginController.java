@@ -1,5 +1,6 @@
 package com.hssw.springboot.test.springtest.Controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.hssw.model.UserEntity;
 import com.hssw.springboot.test.springtest.Service.TokenService;
 import com.hssw.springboot.test.springtest.Service.UserService;
@@ -36,13 +37,11 @@ public class LoginController{
     }
 
     @RequestMapping(value = "/Login",method = RequestMethod.POST)
-    public String Login(UserEntity user){
+    public Object Login(UserEntity user){
         UserEntity validUser =  userService.validateUser(user.getUserName(), user.getPassword());
-        if(validUser ==null){
-            return "error";
-        }
-        else{
-            return "true";
-        }
+        JSONObject ob = new JSONObject();
+        ob.put("id",validUser.getId());
+        ob.put("username", validUser.getNickName());
+        return ob.toJSONString();
     }
 }
