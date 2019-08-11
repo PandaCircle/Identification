@@ -5,6 +5,7 @@ import com.hssw.model.UserEntity;
 import com.hssw.springboot.test.springtest.Service.TokenService;
 import com.hssw.springboot.test.springtest.Service.UserService;
 import com.hssw.springboot.test.springtest.Util.Redis.RedisStorage;
+import com.hssw.springboot.test.springtest.Util.Security.CryptoManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,12 +44,13 @@ public class LoginController{
     }
 
     @RequestMapping(value = "/Login",method = RequestMethod.POST)
-    public Object Login(UserEntity user){
+    public Object Login(UserEntity user)throws Exception{
         UserEntity validUser =  userService.validateUser(user.getUserName(), user.getPassword());
         JSONObject ob = new JSONObject();
         ob.put("id",validUser.getId());
         ob.put("username", validUser.getNickName());
-        
-        return ob.toJSONString();
+        CryptoManager cryptoManager = new CryptoManager();
+        return tokenService.GenerateUserToken(cryptoManager.UseDesProvider().decode(ob.toJSONString()),500);
     }
+
 }

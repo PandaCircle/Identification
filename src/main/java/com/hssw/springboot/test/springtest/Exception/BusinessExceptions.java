@@ -3,7 +3,8 @@ package com.hssw.springboot.test.springtest.Exception;
 public enum BusinessExceptions {
 
     // 业务异常描述
-    USER_VALIDATE_FAILED(10001,"用户凭证无效");
+    USER_VALIDATE_FAILED(10001,"用户凭证无效"),
+    USER_TOKEN_INVAILD(10002,"用户TOKEN验证不通过");
 
     private String message;
 

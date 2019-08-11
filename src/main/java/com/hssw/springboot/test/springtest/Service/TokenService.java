@@ -7,7 +7,10 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
+import com.hssw.springboot.test.springtest.Exception.BusinessException;
+import com.hssw.springboot.test.springtest.Exception.BusinessExceptions;
 import com.hssw.springboot.test.springtest.Service.Key.IKey;
+import com.hssw.springboot.test.springtest.Util.Security.CryptoManager;
 
 import org.apache.tomcat.jni.Time;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +56,7 @@ public class TokenService {
     }
 
     //生成token
-    public String GenerateUserToken(String domain,int userId,String subject,int ttl){
+    public String GenerateUserToken(String subject,int ttl){
 
         //加密算法SHA256
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
@@ -64,7 +67,6 @@ public class TokenService {
 
         //
         JwtBuilder builder = Jwts.builder()
-        .setId("jhsfj")
         .setIssuer("Hssw")
         .setIssuedAt(now)
         .setSubject(subject)
@@ -90,6 +92,22 @@ public class TokenService {
         }
     }
 
+    //检查token是否有效
+    public String ParseToken(String token){
+        SecretKey key = (SecretKey)this.key.GetKey();
+        try{
+            Claims claims = Jwts.parser()
+                            .setSigningKey(key)
+                            .parseClaimsJwt(token)
+                            .getBody();
+                            
+            return claims.getSubject();
+        }
+        catch(Exception e){
+            throw new BusinessException(BusinessExceptions.USER_TOKEN_INVAILD);
+        }
+
+    }
 
 
     
