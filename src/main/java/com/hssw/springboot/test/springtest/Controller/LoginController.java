@@ -49,7 +49,7 @@ public class LoginController{
     }
 
     @RequestMapping(value = "/Login",method = RequestMethod.POST)
-    public Object Login(UserEntity user){
+    public Object Login(UserEntity user)throws Exception{
         UserEntity validUser =  userService.validateUser(user.getUserName(), user.getPassword());
         //创建用户信息摘要
         UserInfo userInfo = new UserInfo();
@@ -80,4 +80,5 @@ public class LoginController{
         BaseResult result = new BaseResult();
         return result;
     }
+
 }

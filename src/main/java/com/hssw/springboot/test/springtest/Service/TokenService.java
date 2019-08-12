@@ -7,7 +7,10 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
+import com.hssw.springboot.test.springtest.Exception.BusinessException;
+import com.hssw.springboot.test.springtest.Exception.BusinessExceptions;
 import com.hssw.springboot.test.springtest.Service.Key.IKey;
+import com.hssw.springboot.test.springtest.Util.Security.CryptoManager;
 
 import org.apache.tomcat.jni.Time;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +92,22 @@ public class TokenService {
         }
     }
 
+    //检查token是否有效
+    public String ParseToken(String token){
+        SecretKey key = (SecretKey)this.key.GetKey();
+        try{
+            Claims claims = Jwts.parser()
+                            .setSigningKey(key)
+                            .parseClaimsJwt(token)
+                            .getBody();
+                            
+            return claims.getSubject();
+        }
+        catch(Exception e){
+            return null;
+        }
+
+    }
 
 
     
