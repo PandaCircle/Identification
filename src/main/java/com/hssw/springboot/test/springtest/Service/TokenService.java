@@ -53,7 +53,7 @@ public class TokenService {
     }
 
     //生成token
-    public String GenerateUserToken(String domain,int userId,String subject,int ttl){
+    public String GenerateUserToken(String subject,int ttl){
 
         //加密算法SHA256
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
@@ -64,7 +64,6 @@ public class TokenService {
 
         //
         JwtBuilder builder = Jwts.builder()
-        .setId("jhsfj")
         .setIssuer("Hssw")
         .setIssuedAt(now)
         .setSubject(subject)

@@ -2,9 +2,9 @@ package com.hssw.springboot.test.springtest.Util.Security;
 
 public class CryptoManager {
     
-    private static final String key ="hellowangqi";
+    private static final String key ="hiwangqi";
 
-    private static final String iv = "weare7";
+    private static final String iv = "wangmeil";
 
     public CryptoManager(){}
 
