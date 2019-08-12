@@ -1,5 +1,10 @@
 package com.hssw.springboot.test.springtest.Controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
 
@@ -49,7 +54,7 @@ public class LoginController{
     }
 
     @RequestMapping(value = "/Login",method = RequestMethod.POST)
-    public Object Login(UserEntity user)throws Exception{
+    public Object Login(UserEntity user,HttpServletResponse response)throws Exception{
         UserEntity validUser =  userService.validateUser(user.getUserName(), user.getPassword());
         //创建用户信息摘要
         UserInfo userInfo = new UserInfo();
@@ -78,6 +83,7 @@ public class LoginController{
         RedisStorage.GetInstance().GetResource().setex(userToken, 600, String.valueOf(validUser.getId()));
         
         BaseResult result = new BaseResult();
+        result.content.put("userInfo",userInfo);
         return result;
     }
 
