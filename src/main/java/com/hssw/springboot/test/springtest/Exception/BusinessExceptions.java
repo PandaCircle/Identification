@@ -4,6 +4,8 @@ public enum BusinessExceptions {
 
     // 业务异常描述
     USER_VALIDATE_FAILED(10001,"用户凭证无效"),
+    TOKEN_INVALID(20001,"令牌无效"),
+    TOKEN_EXPIRED(20002,"令牌过期"),
     CALL_ERROR(90001,"程序错误");
 
     private String message;

@@ -10,7 +10,7 @@ import javax.crypto.spec.DESKeySpec;
 import com.hssw.springboot.test.springtest.Exception.BusinessException;
 import com.hssw.springboot.test.springtest.Exception.BusinessExceptions;
 import com.hssw.springboot.test.springtest.Service.Key.IKey;
-import com.hssw.springboot.test.springtest.Util.Security.CryptoManager;
+
 
 import org.apache.tomcat.jni.Time;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,13 @@ public class TokenService {
 
     }
 
+    public String RequireRefreshToken(){
+        return null;
+    }
+
+    private void TokenExcepthonHandler(Exception ex){
+
+    }
 
     //返回站点特定密钥
     public String GetSiteSecretKey(String domain){
@@ -69,6 +76,7 @@ public class TokenService {
         JwtBuilder builder = Jwts.builder()
         .setIssuer("Hssw")
         .setIssuedAt(now)
+        .setExpiration(new Date(nowMillions + ttl*60000))
         .setSubject(subject)
         .signWith(signatureAlgorithm,key);
 
@@ -95,20 +103,17 @@ public class TokenService {
     //检查token是否有效
     public String ParseToken(String token){
         SecretKey key = (SecretKey)this.key.GetKey();
+        Jws<Claims> claims = null;
         try{
-            Claims claims = Jwts.parser()
-                            .setSigningKey(key)
-                            .parseClaimsJwt(token)
-                            .getBody();
-                            
-            return claims.getSubject();
+            claims = Jwts.parser()
+                         .setSigningKey(key)
+                         .parseClaimsJws(token);
         }
-        catch(Exception e){
-            return null;
+        catch(Exception ex){
+            TokenExcepthonHandler(ex);
         }
-
+        
+        return claims.getBody().getSubject();
     }
 
-
-    
 }

@@ -5,6 +5,8 @@ public class BusinessException extends RuntimeException implements IBaseExceptio
     private static final long serialVersionUID = 1L;
 
     private int errCode;
+
+    private Exception causeException = null;
     
     public BusinessException(){
         super();
@@ -18,6 +20,12 @@ public class BusinessException extends RuntimeException implements IBaseExceptio
     public BusinessException(BusinessExceptions ex){
         super(ex.getMessage());
         this.errCode = ex.getCode();
+    }
+
+    public BusinessException(Exception from , BusinessExceptions dispatch){
+        super(dispatch.getMessage());
+        this.causeException = from;
+        this.errCode = dispatch.getCode();
     }
 
     @Override

@@ -11,8 +11,9 @@ public class BusinessExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public ModelAndView ExceptionResultRender(IBaseException ex){
         ModelAndView mav = new ModelAndView(new MappingJackson2JsonView());
-        mav.addObject("code", ex.getCode());
-        mav.addObject("message", ex.getMessage());
+        mav.addObject("Status", "Error");
+        mav.addObject("Code", ex.getCode());
+        mav.addObject("Message", ex.getMessage());
         return mav;
     }
 }

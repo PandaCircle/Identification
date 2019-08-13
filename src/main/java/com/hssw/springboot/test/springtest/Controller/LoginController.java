@@ -1,15 +1,11 @@
 package com.hssw.springboot.test.springtest.Controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
 
 import com.hssw.model.UserEntity;
-
+import com.hssw.springboot.test.springtest.Exception.BusinessException;
 import com.hssw.springboot.test.springtest.Results.BaseResult;
 import com.hssw.springboot.test.springtest.Service.TokenService;
 import com.hssw.springboot.test.springtest.Service.UserInfo;
@@ -47,12 +43,6 @@ public class LoginController{
         return userService.ShowMePwd();
     }
 
-    @RequestMapping("/Check")
-    public boolean Check(){
-        UserEntity user = userService.validateUser("14407840210", "12456");
-        return user != null;
-    }
-
     @RequestMapping(value = "/Login",method = RequestMethod.POST)
     public Object Login(UserEntity user,HttpServletResponse response)throws Exception{
         UserEntity validUser =  userService.validateUser(user.getUserName(), user.getPassword());
@@ -68,19 +58,15 @@ public class LoginController{
             userSubject = cm.UseDesProvider().encode(userSubject);
         }
         catch(Exception e){
-            System.out.println(e.getMessage());
+            throw new BusinessException(e.getMessage(),9001);
         }
 
         //创建用户token
         String userToken = null;
-        try{
-            userToken = tokenService.GenerateUserToken(userSubject, 1);
-        }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-        }
+        userToken = tokenService.GenerateUserToken(userSubject, 240);
+
         //储存用户token
-        RedisStorage.GetInstance().GetResource().setex(userToken, 600, String.valueOf(validUser.getId()));
+        RedisStorage.GetInstance().GetResource().setex(userToken, 4*60*60, String.valueOf(validUser.getId()));
         
         BaseResult result = new BaseResult();
         result.content.put("userInfo",userInfo);

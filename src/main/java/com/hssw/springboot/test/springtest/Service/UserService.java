@@ -93,12 +93,4 @@ public class UserService {
         return String.valueOf(salt);
     }
 
-    //账户摘要信息
-    public String userSummary(int id){
-        UserEntity user = userMapper.getUserById(id);
-        if(user == null)
-            return null;
-        String summary = user.getId() +'|'+ user.getUserName() +'|'+ user.getNickName();
-        return summary;
-    }
 }
