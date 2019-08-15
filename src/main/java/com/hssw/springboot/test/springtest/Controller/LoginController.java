@@ -43,6 +43,14 @@ public class LoginController{
         return userService.ShowMePwd();
     }
 
+    @RequestMapping(value ="/CheckToken", method = RequestMethod.GET)
+    public Object CheckToken(String token)throws Exception{
+        String encoded_sub = tokenService.ParseToken(token);
+        CryptoManager cm = new CryptoManager();
+        String sub = cm.UseDesProvider().decode(encoded_sub);
+        return sub;
+    }
+
     @RequestMapping(value = "/Login",method = RequestMethod.POST)
     public Object Login(UserEntity user,HttpServletResponse response)throws Exception{
         UserEntity validUser =  userService.validateUser(user.getUserName(), user.getPassword());

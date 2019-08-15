@@ -11,7 +11,6 @@ import com.hssw.springboot.test.springtest.Exception.BusinessException;
 import com.hssw.springboot.test.springtest.Exception.BusinessExceptions;
 import com.hssw.springboot.test.springtest.Service.Key.IKey;
 
-
 import org.apache.tomcat.jni.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,9 +31,6 @@ public class TokenService {
         return null;
     }
 
-    private void TokenExcepthonHandler(Exception ex){
-
-    }
 
     //返回站点特定密钥
     public String GetSiteSecretKey(String domain){
@@ -110,7 +106,12 @@ public class TokenService {
                          .parseClaimsJws(token);
         }
         catch(Exception ex){
-            TokenExcepthonHandler(ex);
+            if(ex instanceof ExpiredJwtException){
+                throw new BusinessException(ex, BusinessExceptions.TOKEN_EXPIRED);
+            }
+            else{
+                throw new BusinessException(ex, BusinessExceptions.TOKEN_INVALID);
+            }
         }
         
         return claims.getBody().getSubject();
